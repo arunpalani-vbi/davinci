@@ -55,6 +55,7 @@ export default class Login extends React.Component {
                                 placeholderTextColor="#eee" />
                             <TextInput
                                 style={styles.input}
+                                underlineColorAndroid="transparent"
                                 returnKeyType="go"
                                 ref={input => (this.passwordInput = input)}
                                 placeholder="Password"
