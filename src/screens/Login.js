@@ -28,13 +28,19 @@ export default class Login extends React.Component {
     }
   
     _loginToZoho=()=>{
-        if(validate(this.state,constraints)){
-            console.log(validate(this.state,constraints))
+        var errorData=validate(this.state,constraints);
+        console.log(errorData);
+        if(errorData){
+            if(errorData.email){
+                Alert.alert(errorData.email[0]);
+                this.emailInput.focus();
+            }
+            else if(errorData.password){
+                Alert.alert(errorData.password[0]);
+                this.passwordInput.focus()
+            }
+            return;
         }
-        else{
-            Alert("No Props");
-        }
-
 
         this.setState({showForm:false});
         session.authenticate(this.state.email,this.state.password).then((data)=>{
@@ -122,9 +128,16 @@ const constraints = {
     email: {
         format: {
             pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-            message:'Not a valid email'
+            message:'is not valid'
         },
       presence: true,
+    },
+    password:{
+      presence: true,
+      length: {
+        minimum: 1,
+        message: "should not be empty"
+      }
     }
   };
 
