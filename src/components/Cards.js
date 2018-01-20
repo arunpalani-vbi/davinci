@@ -10,14 +10,14 @@ export default class Cards extends Component {
     }
 
     render() {
-        const percentage = (this.props.employeeData.questionsCount.completed / this.props.employeeData.questionsCount.total) * 100;
+        const percentage = (40 / 100) * 100;
         return (
             <View style={styles.container}>
                 <View style={styles.cardHeader}>
                     <Image style={styles.cardHeaderImage} source={{
                         uri: 'https://www.communitylandtrust.ca/wp-content/uploads/2015/10/placeholder.png'
                     }}/>
-                    <Text style={styles.cardHeaderFont}>{this.props.employeeData.name}</Text>
+                    <Text style={styles.cardHeaderFont}>{this.props.employeeData.ownerName}</Text>
                 </View>
                 <View style={styles.cardInfo}>
                     <View>
@@ -27,7 +27,7 @@ export default class Cards extends Component {
                             incompleteStyle={{backgroundColor: "rgb(243,243,243)"}}
                         />
                         <Text style={styles.progressText}>
-                            {this.props.employeeData.questionsCount.completed + '/' + this.props.employeeData.questionsCount.total + ' (' + percentage + '%)'}
+                            {40 + '/' + 100 + ' (' + percentage + '%)'}
                         </Text>
                     </View>
                 </View>
