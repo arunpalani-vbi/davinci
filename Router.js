@@ -19,9 +19,13 @@ export default class Router extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoggedIn: true
+            isLoggedIn: false
         }
     }
+    setLoginState=(loginState)=>{
+        this.setState({isLoggedIn:loginState});
+    }
+    
     render() {
         if (this.state.isLoggedIn) {
             return (
@@ -29,7 +33,7 @@ export default class Router extends React.Component {
             );
         } else {
             return (
-                <Login />
+                <Login setLoginState={this.setLoginState} />
             );
         }
 
