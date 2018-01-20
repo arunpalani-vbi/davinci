@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
 
 import Login from './src/screens/Login'
 import HomeScreen from './src/screens/HomeScreen'
@@ -19,14 +19,29 @@ export default class Router extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isLoggedIn: false
+            isLoggedIn: false,
+            disableRender:true
         }
     }
-    setLoginState=(loginState)=>{
-        this.setState({isLoggedIn:loginState});
+    async componentWillMount() {
+        if (!this.state.isLoggedIn) {
+            let token = await AsyncStorage.getItem("authToken");
+            if (token) {
+                this.setState({ isLoggedIn: true,disableRender:false });
+            }
+            else{
+                this.setState({ disableRender:false });
+            }
+        }
     }
-    
+    setLoginState = (loginState) => {
+        this.setState({ isLoggedIn: loginState });
+    }
+
     render() {
+        if(this.state.disableRender){
+            return(null);
+        }
         if (this.state.isLoggedIn) {
             return (
                 <AppNavigator />
