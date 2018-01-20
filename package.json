@@ -25,6 +25,11 @@
     "react-native": "0.50.3",
     "react-native-stars-rating": "^0.1.7",
     "react-navigation": "^1.0.0-beta.27",
-    "reactfire": "^1.0.0"
+    "reactfire": "^1.0.0",
+    "loadash": "^1.0.0",
+    "react": "16.0.0",
+    "react-native": "0.50.3",
+    "react-navigation": "^1.0.0-beta.27",
+    "validate.js": "^0.12.0"
   }
 }
