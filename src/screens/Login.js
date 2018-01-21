@@ -18,41 +18,41 @@ import validate from 'validate.js'
 import * as session from '../services/session'
 
 export default class Login extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            email: '',
-            password: '',
-            showForm:true
-          }
+  constructor(props) {
+    super(props);
+    this.state = {
+      email: '',
+      password: '',
+      showForm: true
     }
-  
-    _loginToZoho=()=>{
-        var errorData=validate(this.state,constraints);
-        console.log(errorData);
-        if(errorData){
-            if(errorData.email){
-                Alert.alert(errorData.email[0]);
-                this.emailInput.focus();
-            }
-            else if(errorData.password){
-                Alert.alert(errorData.password[0]);
-                this.passwordInput.focus()
-            }
-            return;
-        }
+  }
 
-        this.setState({showForm:false});
-        session.authenticate(this.state.email,this.state.password).then((data)=>{
-            this.setState({showForm:true,password:''});
-            if(!data.errorMessage){
-                this.props.setLoginState(true);
-            }
-            else{
-                Alert.alert(errorMessageMap[data.errorMessage]?errorMessageMap[data.errorMessage]:data.errorMessage);
-            }
-        });
+  _loginToZoho = () => {
+    var errorData = validate(this.state, constraints);
+    console.log(errorData);
+    if (errorData) {
+      if (errorData.email) {
+        Alert.alert(errorData.email[0]);
+        this.emailInput.focus();
+      }
+      else if (errorData.password) {
+        Alert.alert(errorData.password[0]);
+        this.passwordInput.focus()
+      }
+      return;
     }
+
+    this.setState({ showForm: false });
+    session.authenticate(this.state.email, this.state.password).then((data) => {
+      this.setState({ showForm: true, password: '' });
+      if (!data.errorMessage) {
+        this.props.setLoginState(true);
+      }
+      else {
+        Alert.alert(errorMessageMap[data.errorMessage] ? errorMessageMap[data.errorMessage] : data.errorMessage);
+      }
+    });
+  }
   render() {
     const keyboardVerticalOffset = Platform.OS === 'ios' ? 40 : 0;
     return (
@@ -73,13 +73,11 @@ export default class Login extends React.Component {
               <Image
                 style={styles.stretch}
                 resizeMode={Image.resizeMode.contain}
-                source={{
-                  uri: 'https://raw.githubusercontent.com/DharanBro/VBXSuite/master/Davinci/src/images/360logo.png?token=ATSA1pZfLl3tNvsaVm1wk67jgynNeSkAks5aawH3wA%3D%3D',
-                }}
+                source={require('../images/360logo.png')}
               />
-              {this.state.showForm?null:<ActivityIndicator size={50} color="#fff" />}
+              {this.state.showForm ? null : <ActivityIndicator size={50} color="#fff" />}
             </View>
-            {this.state.showForm?<View style={styles.formConatiner}>
+            {this.state.showForm ? <View style={styles.formConatiner}>
               <Text style={styles.loginInfoText}>
                 Login with Zoho credentials
               </Text>
@@ -88,7 +86,7 @@ export default class Login extends React.Component {
                 underlineColorAndroid="transparent"
                 autoCapitalize="none"
                 value={this.state.email}
-                onChangeText={email => this.setState({email})}
+                onChangeText={email => this.setState({ email })}
                 onSubmitEditing={() => this.passwordInput.focus()}
                 ref={input => (this.emailInput = input)}
                 autoCorrect={false}
@@ -101,7 +99,7 @@ export default class Login extends React.Component {
                 style={styles.input}
                 underlineColorAndroid="transparent"
                 returnKeyType="go"
-                onChangeText={password => this.setState({password})}
+                onChangeText={password => this.setState({ password })}
                 ref={input => (this.passwordInput = input)}
                 placeholder="Password"
                 placeholderTextColor="#eee"
@@ -112,7 +110,7 @@ export default class Login extends React.Component {
                 onPress={this._loginToZoho}>
                 <Text style={styles.buttonText}>LOGIN</Text>
               </TouchableOpacity>
-            </View>:<View style={styles.formConatiner}></View>}
+            </View> : <View style={styles.formConatiner}></View>}
           </LinearGradient>
         </KeyboardAvoidingView>
 
@@ -120,26 +118,26 @@ export default class Login extends React.Component {
     );
   }
 }
-const errorMessageMap={
-    'NO_SUCH_USER':'Email does not exist',
-    'INVALID_PASSWORD':'Invalid password',
+const errorMessageMap = {
+  'NO_SUCH_USER': 'Email does not exist',
+  'INVALID_PASSWORD': 'Invalid password',
 }
 const constraints = {
-    email: {
-        format: {
-            pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-            message:'is not valid'
-        },
-      presence: true,
+  email: {
+    format: {
+      pattern: /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      message: 'is not valid'
     },
-    password:{
-      presence: true,
-      length: {
-        minimum: 1,
-        message: "should not be empty"
-      }
+    presence: true,
+  },
+  password: {
+    presence: true,
+    length: {
+      minimum: 1,
+      message: "should not be empty"
     }
-  };
+  }
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -150,7 +148,6 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-
     backgroundColor: 'rgba(225,225,225,0.2)',
     marginBottom: 10,
     padding: 10,
@@ -170,17 +167,12 @@ const styles = StyleSheet.create({
     height: 100,
   },
   logoContainer: {
-    // order:1, flexGrow:5, flexShrink:1,
     height: '70%',
-    // flexBasis:"auto",
     alignItems: 'center',
     justifyContent: 'center',
-    // alignSelf:"auto"
   },
   formConatiner: {
-    //     order:2, flexGrow:2,   flexShrink:1,
     height: '30%',
-    // display:"flex", flexBasis:"auto", alignSelf:"auto",
     flexDirection: 'column',
     justifyContent: 'flex-end',
     paddingBottom: 50,
