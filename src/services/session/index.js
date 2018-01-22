@@ -36,3 +36,14 @@ export const authenticate = (email, password) =>
 	  api.authenticate(email, password)
         .then(onRequestSuccess).catch(onRequestFail)
 
+export const getToken = async function(){
+    let token;
+    try{
+        token= await AsyncStorage.getItem("authToken");
+    }
+    catch(error){
+        token=false;
+    }
+    return token;
+   
+}
