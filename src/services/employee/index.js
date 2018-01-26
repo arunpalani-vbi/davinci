@@ -3,7 +3,7 @@ import { AsyncStorage } from 'react-native'
 
 const processEmployeeList = (response) => {
     var responseData=JSON.parse(response._bodyText);
-    if(responseData.errors.code==7202){
+    if(responseData.errors && responseData.errors.code==7202){
         //Need to rewrite -  AsyncStorage.removeItem is a promise
         AsyncStorage.removeItem("authToken");
         return {errorMessage:"Invalid Token",responseData:responseData}

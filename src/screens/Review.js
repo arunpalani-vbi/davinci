@@ -11,19 +11,27 @@ export default class Review extends React.Component {
       token: null,
     };
   }
-  async componentWillMount() {
+  setEmployeeData(token){
+    EmployeeService.getEmployeeList(token).then((employeeData)=>{
+      console.log(employeeData);
+      if(employeeData.errorMessage){
+        return;
+      }
+      this.setState({ employeeData });
+    });
+  }
+  componentWillMount() {
     console.log(this.props);
     if (!this.state.token) {
-      let token = Session.getToken();
-      this.setState({ token });
+      Session.getToken().then((token)=>{
+        this.setState({ token });
+        this.setEmployeeData(token)
+      });
     }
-    EmployeeService.getEmployeeList(this.state.token).then(employeeData => {
-      if(employeeData.errorMessage){
-        console.log(employeeData);
-       //this.props.navigation.navigate("Logout");
-      }
-      //this.setState({ employeeData });
-    });
+    else{
+      this.setEmployeeData(this.state.token);
+    }
+    
   }
   static navigationOptions = {
     drawerLabel: 'Review Employees',
