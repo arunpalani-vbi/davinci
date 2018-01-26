@@ -13,7 +13,7 @@ export default class Review extends React.Component {
   }
   setEmployeeData(token){
     EmployeeService.getEmployeeList(token).then((employeeData)=>{
-      console.log(employeeData);
+    //  console.log(employeeData);
       if(employeeData.errorMessage){
         return;
       }
@@ -44,7 +44,7 @@ export default class Review extends React.Component {
       return(null);
     }
     const employeeCards = this.state.employeeData.map(employee => (
-      <Cards employeeData={employee} key={employee.ownerName} />
+      <Cards navigateToQuestion={this.props.screenProps.navigateToQuestion} employeeData={employee} key={employee.ownerName} />
     ));
     return (
       <ScrollView style={styles.container}>

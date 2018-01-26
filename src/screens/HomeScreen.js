@@ -8,11 +8,11 @@ import ReviewScreen from './Review';
 
 const HomeDrawer = DrawerNavigator({
     Review: {
-        screen:ReviewScreen,
+        screen:ReviewScreen
     },
     Employee: {
         screen: EmployeeScreen,
-    },
+    }
 }, {
         drawerOpenRoute: 'DrawerOpen',
         drawerCloseRoute: 'DrawerClose',
@@ -27,6 +27,11 @@ export default class HomeScreen extends React.Component {
     constructor(props) {
         super(props);
 
+    }
+
+    navigateToQuestions=(user)=>{
+        //console.log("HERE",user);
+        this.props.navigation.navigate("Questions",{user});
     }
 
     componentDidMount() {
@@ -49,7 +54,7 @@ export default class HomeScreen extends React.Component {
     }
     render() {
         return (
-            <HomeDrawer />
+            <HomeDrawer screenProps={{navigateToQuestion:this.navigateToQuestions}} />
 
         );
     }

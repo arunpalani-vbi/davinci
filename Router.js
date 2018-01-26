@@ -8,6 +8,7 @@ import * as session from './src/services/session'
 import Login from './src/screens/Login'
 import HomeScreen from './src/screens/HomeScreen'
 import SplashScreen from './src/screens/SplashScreen'
+import Questions from './src/screens/Questions'
 
 import { StackNavigator } from 'react-navigation';
 const AppNavigator = StackNavigator({
@@ -15,6 +16,12 @@ const AppNavigator = StackNavigator({
         screen: HomeScreen,
         navigationOptions: {
             title: "Home"
+        }
+    },
+    Questions:{
+        screen:Questions,
+        navigationOptions:{
+            title:"Questions"
         }
     }
 })
@@ -55,7 +62,7 @@ export default class Router extends React.Component {
         }
         if (this.state.isLoggedIn) {
             return (
-                <AppNavigator setLoginState={this.setLoginState} />
+                <AppNavigator setLoginState={this.setLoginState} navigation={this.props.navigation} />
             );
         } else {
             return (
