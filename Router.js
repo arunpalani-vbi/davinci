@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, AsyncStorage } from 'react-native';
 
 import _ from 'lodash'
 
+import * as session from './src/services/session'
+
 import Login from './src/screens/Login'
 import HomeScreen from './src/screens/HomeScreen'
 import SplashScreen from './src/screens/SplashScreen'
@@ -27,18 +29,20 @@ export default class Router extends React.Component {
             showSplashScreen: true
         }
     }
-    async componentWillMount() {
+    componentWillMount() {
         _.delay(function () {
             this.setState({ showSplashScreen: false });
         }.bind(this), splashScreenTimeout);
         if (!this.state.isLoggedIn) {
-            let token = await AsyncStorage.getItem("authToken");
-            if (token) {
-                this.setState({ isLoggedIn: true, disableRender: false });
-            }
-            else {
-                this.setState({ disableRender: false });
-            }
+            session.getToken().then((token)=>{
+                console.log(token);
+                if (token) {
+                    this.setState({ isLoggedIn: true, disableRender: false });
+                }
+                else {
+                    this.setState({ disableRender: false });
+                }
+            });
         }
     }
     setLoginState = (loginState) => {
@@ -51,7 +55,7 @@ export default class Router extends React.Component {
         }
         if (this.state.isLoggedIn) {
             return (
-                <AppNavigator />
+                <AppNavigator setLoginState={this.setLoginState} />
             );
         } else {
             return (

@@ -7,17 +7,22 @@ export default class Review extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      employeeData: [],
+      employeeData: null,
       token: null,
     };
   }
   async componentWillMount() {
+    console.log(this.props);
     if (!this.state.token) {
       let token = Session.getToken();
       this.setState({ token });
     }
     EmployeeService.getEmployeeList(this.state.token).then(employeeData => {
-      this.setState({ employeeData });
+      if(employeeData.errorMessage){
+        console.log(employeeData);
+       //this.props.navigation.navigate("Logout");
+      }
+      //this.setState({ employeeData });
     });
   }
   static navigationOptions = {
@@ -27,6 +32,9 @@ export default class Review extends React.Component {
     ),
   };
   render() {
+    if(!this.state.employeeData){
+      return(null);
+    }
     const employeeCards = this.state.employeeData.map(employee => (
       <Cards employeeData={employee} key={employee.ownerName} />
     ));

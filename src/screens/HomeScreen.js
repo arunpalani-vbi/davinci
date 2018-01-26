@@ -6,10 +6,9 @@ import * as firebase from 'firebase'
 import EmployeeScreen from './Employee';
 import ReviewScreen from './Review';
 
-
 const HomeDrawer = DrawerNavigator({
     Review: {
-        screen: ReviewScreen,
+        screen:ReviewScreen,
     },
     Employee: {
         screen: EmployeeScreen,

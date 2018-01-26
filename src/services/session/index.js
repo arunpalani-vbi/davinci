@@ -13,7 +13,7 @@ const onRequestSuccess =async function(response) {
         authToken=responseData.replace("AUTHTOKEN=","");
     }
     else{
-        errorMessage='UNKOWN';
+        errorMessage='UNKNOWN';
     }
     if(!errorMessage){
         try {
@@ -28,7 +28,7 @@ const onRequestSuccess =async function(response) {
 };
 
 const onRequestFail=(error)=>{
-    let  errorMessage='UNKOWN';
+    let  errorMessage='UNKNOWN';
     return {errorMessage}
 }
 

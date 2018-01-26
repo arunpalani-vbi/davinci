@@ -77,7 +77,7 @@ export default class Login extends React.Component {
               />
               {this.state.showForm ? null : <ActivityIndicator size={50} color="#fff" />}
             </View>
-            {this.state.showForm ? <View style={styles.formConatiner}>
+            {this.state.showForm ? <View style={styles.formContainer}>
               <Text style={styles.loginInfoText}>
                 Login with Zoho credentials
               </Text>
@@ -110,7 +110,7 @@ export default class Login extends React.Component {
                 onPress={this._loginToZoho}>
                 <Text style={styles.buttonText}>LOGIN</Text>
               </TouchableOpacity>
-            </View> : <View style={styles.formConatiner}></View>}
+            </View> : <View style={styles.formContainer}></View>}
           </LinearGradient>
         </KeyboardAvoidingView>
 
@@ -171,7 +171,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  formConatiner: {
+  formContainer: {
     height: '30%',
     flexDirection: 'column',
     justifyContent: 'flex-end',
