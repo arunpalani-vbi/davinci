@@ -10,6 +10,7 @@ export default class Questions extends React.Component{
             questions:[]
         }
     }
+    _keyExtractor = (item, index) => index;
     componentWillMount() {
         var config = {
             apiKey: "AIzaSyClIA9deJhn3rLS3_TgQ1STWy5XZldPs7s",
@@ -32,6 +33,7 @@ export default class Questions extends React.Component{
         return (<View>
             <FlatList
             data={this.state.questions}
+            keyExtractor={this._keyExtractor}
             renderItem={({question}) => <Text>{console.log(question)}</Text>}
             />
         </View>);
