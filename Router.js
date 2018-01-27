@@ -62,7 +62,7 @@ export default class Router extends React.Component {
         }
         if (this.state.isLoggedIn) {
             return (
-                <AppNavigator setLoginState={this.setLoginState} navigation={this.props.navigation} />
+                <AppNavigator navigation={this.props.navigation} />
             );
         } else {
             return (

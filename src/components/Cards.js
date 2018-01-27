@@ -9,7 +9,6 @@ export default class Cards extends Component {
         this.state = {}
     }
     _onCardClick=()=>{
-        console.log(this.props);
         this.props.navigateToQuestion(this.props.employeeData);
     }
 
