@@ -22,15 +22,15 @@ export default class Questions extends React.Component {
         this.ratingRef = firebaseDb.ref("rating");
         this.employeeId = this.props.navigation.state.params.user.EmployeeID;
 
-        let filteredQuestionPath = this.questionsRef
+        let filteredQuestionRef = this.questionsRef
             .orderByChild("behaviourImpact")
             .equalTo(BehaviourImpact)
             .limitToFirst(5)
-        let filteredRatingPath = this.ratingRef
+        let filteredRatingRef = this.ratingRef
             .orderByChild("searchKey")
             .equalTo(this.employeeId+BehaviourImpact+TimePeriod)
         let processQuestionSnapshot = (questionSnapshot) => {
-            filteredRatingPath.on("value",(ratingSnapshot)=>{
+            filteredRatingRef.on("value",(ratingSnapshot)=>{
                 let ratings=ratingSnapshot.val()?ratingSnapshot.val():{};
                 let questions = [];
                 let pushToQuestions =(question, questionKey)=> {
@@ -48,7 +48,7 @@ export default class Questions extends React.Component {
                 this.setState({ questions })
             });
         }
-        filteredQuestionPath.on("value", processQuestionSnapshot);
+        filteredQuestionRef.on("value", processQuestionSnapshot);
     }
     componentWillUnmount() {
         this.questionsRef.off();
