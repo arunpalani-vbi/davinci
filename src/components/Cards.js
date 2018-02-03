@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image, Text, TouchableHighlight, View} from 'react-native';
+import {LinearGradient} from 'expo';
 
 const ProgressBar = require("./ProgressBar");
 const styles = require('../styles/Style');
@@ -8,16 +9,25 @@ export default class Cards extends Component {
         super(props);
         this.state = {}
     }
+    _onCardClick=()=>{
+        this.props.navigateToQuestion(this.props.employeeData);
+    };
 
     render() {
         const percentage = (40 / 100) * 100;
         return (
-            <View style={styles.container}>
-                <View style={styles.cardHeader}>
-                    <Image style={styles.cardHeaderImage} source={{
-                        uri: 'https://www.communitylandtrust.ca/wp-content/uploads/2015/10/placeholder.png'
-                    }}/>
-                    <Text style={styles.cardHeaderFont}>{this.props.employeeData.ownerName}</Text>
+            <TouchableHighlight onPress={this._onCardClick}>
+            <View style={styles.container} >
+
+                <View>
+                    <LinearGradient
+                        style={styles.cardHeader}
+                        colors={['#548ee8', '#133bd0']}>
+                        <Image style={styles.cardHeaderImage} source={{
+                            uri: 'https://www.communitylandtrust.ca/wp-content/uploads/2015/10/placeholder.png'
+                        }}/>
+                        <Text style={styles.cardHeaderFont}>{this.props.employeeData.ownerName}</Text>
+                    </LinearGradient>
                 </View>
                 <View style={styles.cardInfo}>
                     <View>
@@ -31,7 +41,9 @@ export default class Cards extends Component {
                         </Text>
                     </View>
                 </View>
+                
             </View>
+            </TouchableHighlight>
         );
     }
 }

@@ -1,9 +1,5 @@
 {
   "expo": {
-    "sdkVersion": "23.0.0",
-    "splash": {
-      "image": "./src/images/360logo.png",
-      "backgroundColor": "#3F51B5"
-    }
+    "sdkVersion": "23.0.0"
   }
 }
