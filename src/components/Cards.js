@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, Text, TouchableHighlight, View} from 'react-native';
+import {Text, TouchableHighlight, View} from 'react-native';
 import {LinearGradient} from 'expo';
 
 const ProgressBar = require("./ProgressBar");
@@ -15,6 +15,13 @@ export default class Cards extends Component {
 
     render() {
         const percentage = (40 / 100) * 100;
+        const userName = this.props.employeeData.ownerName.split(' ');
+        let userInitials = '';
+        if (userName.length > 1) {
+            userInitials = userName[0][0].toUpperCase() + userName[1][0].toUpperCase();
+        } else {
+            userInitials = userName[0][0].toUpperCase();
+        }
         return (
             <TouchableHighlight onPress={this._onCardClick}>
             <View style={styles.container} >
@@ -23,9 +30,11 @@ export default class Cards extends Component {
                     <LinearGradient
                         style={styles.cardHeader}
                         colors={['#548ee8', '#133bd0']}>
-                        <Image style={styles.cardHeaderImage} source={{
-                            uri: 'https://www.communitylandtrust.ca/wp-content/uploads/2015/10/placeholder.png'
-                        }}/>
+                        <View style={styles.cardHeaderImage}>
+                            <Text style={styles.imageContainer}>
+                                {userInitials}
+                            </Text>
+                        </View>
                         <Text style={styles.cardHeaderFont}>{this.props.employeeData.ownerName}</Text>
                     </LinearGradient>
                 </View>
