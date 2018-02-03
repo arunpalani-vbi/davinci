@@ -29,28 +29,9 @@ export default class HomeScreen extends React.Component {
     }
 
     navigateToQuestions=(user)=>{
-        //console.log("HERE",user);
         this.props.navigation.navigate("Questions",{user});
     }
 
-    // componentDidMount() {
-    //     console.log('start');
-    //     var config = {
-    //         apiKey: "AIzaSyClIA9deJhn3rLS3_TgQ1STWy5XZldPs7s",
-    //         authDomain: "vbi-da-vinci.firebaseapp.com",
-    //         databaseURL: "https://vbi-da-vinci.firebaseio.com",
-    //         projectId: "vbi-da-vinci",
-    //         storageBucket: "vbi-da-vinci.appspot.com",
-    //         messagingSenderId: "685626298086"
-    //     };
-    //     firebase.initializeApp(config);
-    //     var database = firebase.database();
-    //     var leadsRef = database.ref('categories');
-    //     console.log(leadsRef);
-    //     leadsRef.orderByChild("height").on("child_added", function (snapshot) {
-    //         console.log(snapshot.key + " was " + snapshot.val().height + " meters tall");
-    //     });
-    // }
     render() {
         return (
             <HomeDrawer screenProps={{navigateToQuestion:this.navigateToQuestions}} />

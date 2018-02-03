@@ -13,7 +13,6 @@ export default class Review extends React.Component {
   }
   setEmployeeData(token){
     EmployeeService.getEmployeeList(token).then((employeeData)=>{
-    //  console.log(employeeData);
       if(employeeData.errorMessage){
         return;
       }
@@ -21,7 +20,6 @@ export default class Review extends React.Component {
     });
   }
   componentWillMount() {
-    console.log(this.props);
     if (!this.state.token) {
       Session.getToken().then((token)=>{
         this.setState({ token });
