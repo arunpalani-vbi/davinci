@@ -1,11 +1,11 @@
 import React from 'react'
 import _ from 'lodash'
-import { StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native'
+import {Text, View} from 'react-native'
 import Carousel from 'react-native-snap-carousel'
-import styles, { sliderWidth, itemWidth } from '../styles/SliderEntry.style'
+import styles, {itemWidth, sliderWidth} from '../styles/SliderEntry.style'
 import firebaseDb from '../services/firebase'
-import { Rating } from 'react-native-ratings'
-
+import {Rating} from 'react-native-ratings'
+//https://github.com/FaridSafi/react-native-gifted-listview
 const TimePeriod = 'JAN2018';
 const BehaviourImpact = 'Deliverables';
 export default class Questions extends React.Component {
@@ -14,57 +14,6 @@ export default class Questions extends React.Component {
         this.state = {
             questions: []
         }
-    }
-
-    componentWillMount() {
-
-        this.questionsRef = firebaseDb.ref("questions");
-        this.ratingRef = firebaseDb.ref("rating");
-        this.employeeId = this.props.navigation.state.params.user.EmployeeID;
-
-        let filteredQuestionRef = this.questionsRef
-            .orderByChild("behaviourImpact")
-            .equalTo(BehaviourImpact)
-            .limitToFirst(5)
-        let filteredRatingRef = this.ratingRef
-            .orderByChild("searchKey")
-            .equalTo(this.employeeId+BehaviourImpact+TimePeriod)
-        let processQuestionSnapshot = (questionSnapshot) => {
-            filteredRatingRef.on("value",(ratingSnapshot)=>{
-                let ratings=ratingSnapshot.val()?ratingSnapshot.val():{};
-                let questions = [];
-                let pushToQuestions =(question, questionKey)=> {
-                    let ratingKey=this.employeeId+"_"+TimePeriod+"_"+questionKey;
-                    if(ratingKey && ratingKey in ratings){
-                        question.rating=ratings[ratingKey].value;
-                    }
-                    else{
-                        question.rating=0;
-                    }
-                    question.key = questionKey;
-                    questions.push(question);
-                }
-                _.each(questionSnapshot.val(), pushToQuestions)
-                this.setState({ questions })
-            });
-        }
-        filteredQuestionRef.on("value", processQuestionSnapshot);
-    }
-    componentWillUnmount() {
-        this.questionsRef.off();
-        this.ratingRef.off();
-    }
-
-    _ratingCompleted(behaviourImpact, questionKey, rating) {
-        let ratingKey = this.employeeId + "_"+TimePeriod+ "_" + questionKey;
-        this.ratingRef.child(ratingKey).set({
-            'employeeId': this.employeeId,
-            'question': questionKey,
-            'behaviourImpact': behaviourImpact,
-            'value': rating,
-            'timePeriod': TimePeriod,
-            'searchKey':this.employeeId+behaviourImpact+TimePeriod
-        });
     }
 
     _renderItem = ({ item, index }) => {
@@ -122,6 +71,58 @@ export default class Questions extends React.Component {
                 </View>
             </View>
         );
+    };
+
+    componentWillUnmount() {
+        this.questionsRef.off();
+        this.ratingRef.off();
+    }
+
+    _ratingCompleted(behaviourImpact, questionKey, rating) {
+        let ratingKey = this.employeeId + "_" + TimePeriod + "_" + questionKey;
+        this.ratingRef.child(ratingKey).set({
+            'employeeId': this.employeeId,
+            'question': questionKey,
+            'behaviourImpact': behaviourImpact,
+            'value': rating,
+            'timePeriod': TimePeriod,
+            'searchKey': this.employeeId + behaviourImpact + TimePeriod
+        });
+    }
+
+    componentWillMount() {
+
+        this.questionsRef = firebaseDb.ref("questions");
+        this.ratingRef = firebaseDb.ref("rating");
+        this.employeeId = this.props.navigation.state.params.user.EmployeeID;
+
+        let filteredQuestionRef = this.questionsRef
+            .orderByChild("behaviourImpact")
+            .equalTo(BehaviourImpact)
+            .limitToFirst(5);
+        let filteredRatingRef = this.ratingRef
+            .orderByChild("searchKey")
+            .equalTo(this.employeeId + BehaviourImpact + TimePeriod);
+        let processQuestionSnapshot = (questionSnapshot) => {
+            filteredRatingRef.on("value", (ratingSnapshot) => {
+                let ratings = ratingSnapshot.val() ? ratingSnapshot.val() : {};
+                let questions = [];
+                let pushToQuestions = (question, questionKey) => {
+                    let ratingKey = this.employeeId + "_" + TimePeriod + "_" + questionKey;
+                    if (ratingKey && ratingKey in ratings) {
+                        question.rating = ratings[ratingKey].value;
+                    }
+                    else {
+                        question.rating = 0;
+                    }
+                    question.key = questionKey;
+                    questions.push(question);
+                };
+                _.each(questionSnapshot.val(), pushToQuestions);
+                this.setState({questions})
+            });
+        };
+        filteredQuestionRef.on("value", processQuestionSnapshot);
     }
     render() {
         if (this.state.questions)
