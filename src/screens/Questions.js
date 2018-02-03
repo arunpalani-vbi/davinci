@@ -1,43 +1,142 @@
-import React from 'react';
-import { StyleSheet, View, Text,FlatList} from 'react-native';
-import * as firebase from 'firebase'
-import {ReactFireMixin} from 'reactfire';
+import React from 'react'
+import _ from 'lodash'
+import { StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native'
+import Carousel from 'react-native-snap-carousel'
+import styles, { sliderWidth, itemWidth } from '../styles/SliderEntry.style'
+import firebaseDb from '../services/firebase'
+import { Rating } from 'react-native-ratings'
 
-export default class Questions extends React.Component{
+const TimePeriod = 'JAN2018';
+const BehaviourImpact = 'Deliverables';
+export default class Questions extends React.Component {
     constructor(props) {
         super(props);
-        this.state={
-            questions:[]
+        this.state = {
+            questions: []
         }
     }
-    _keyExtractor = (item, index) => index;
+
     componentWillMount() {
-        var config = {
-            apiKey: "AIzaSyClIA9deJhn3rLS3_TgQ1STWy5XZldPs7s",
-            authDomain: "vbi-da-vinci.firebaseapp.com",
-            databaseURL: "https://vbi-da-vinci.firebaseio.com",
-            projectId: "vbi-da-vinci",
-            storageBucket: "vbi-da-vinci.appspot.com",
-            messagingSenderId: "685626298086"
-        };
-        firebase.initializeApp(config);
-        var ref = firebase.database().ref("questions");
-        ref.on("value",(snapshot)=>{
-            this.setState({questions:snapshot.val()})
+
+        this.questionsRef = firebaseDb.ref("questions");
+        this.ratingRef = firebaseDb.ref("rating");
+        this.employeeId = this.props.navigation.state.params.user.EmployeeID;
+
+        let filteredQuestionRef = this.questionsRef
+            .orderByChild("behaviourImpact")
+            .equalTo(BehaviourImpact)
+            .limitToFirst(5)
+        let filteredRatingRef = this.ratingRef
+            .orderByChild("searchKey")
+            .equalTo(this.employeeId+BehaviourImpact+TimePeriod)
+        let processQuestionSnapshot = (questionSnapshot) => {
+            filteredRatingRef.on("value",(ratingSnapshot)=>{
+                let ratings=ratingSnapshot.val()?ratingSnapshot.val():{};
+                let questions = [];
+                let pushToQuestions =(question, questionKey)=> {
+                    let ratingKey=this.employeeId+"_"+TimePeriod+"_"+questionKey;
+                    if(ratingKey && ratingKey in ratings){
+                        question.rating=ratings[ratingKey].value;
+                    }
+                    else{
+                        question.rating=0;
+                    }
+                    question.key = questionKey;
+                    questions.push(question);
+                }
+                _.each(questionSnapshot.val(), pushToQuestions)
+                this.setState({ questions })
+            });
+        }
+        filteredQuestionRef.on("value", processQuestionSnapshot);
+    }
+    componentWillUnmount() {
+        this.questionsRef.off();
+        this.ratingRef.off();
+    }
+
+    _ratingCompleted(behaviourImpact, questionKey, rating) {
+        let ratingKey = this.employeeId + "_"+TimePeriod+ "_" + questionKey;
+        this.ratingRef.child(ratingKey).set({
+            'employeeId': this.employeeId,
+            'question': questionKey,
+            'behaviourImpact': behaviourImpact,
+            'value': rating,
+            'timePeriod': TimePeriod,
+            'searchKey':this.employeeId+behaviourImpact+TimePeriod
         });
-      }
-    render(){
-        console.log(this.props.navigation.state.params);
-        console.log(this.state.questions);
-        if(this.state.questions)
-        return (<View>
-            <FlatList
-            data={this.state.questions}
-            keyExtractor={this._keyExtractor}
-            renderItem={({question}) => <Text>{console.log(question)}</Text>}
-            />
-        </View>);
+    }
+
+    _renderItem = ({ item, index }) => {
+
+        return (
+            <View
+                style={styles.slideInnerContainer}
+            >
+
+                <View style={styles.textContainer}>
+
+                    <Text
+                        style={styles.title}
+                        numberOfLines={2}
+                    >
+                        {item.behaviouralTrait.toUpperCase()}
+                    </Text>
+                    <Text
+                        style={styles.subtitle}
+                        numberOfLines={2}
+                    >
+                        {item.evidence}
+                    </Text>
+                    <Text
+                        style={styles.subtitle}
+                        numberOfLines={2}
+                    >
+                        {item.evidence}
+                    </Text>
+                    <Text
+                        style={styles.subtitle}
+                        numberOfLines={2}
+                    >
+                        {item.evidence}
+                    </Text>
+                    <Text
+                        style={styles.subtitle}
+                        numberOfLines={2}
+                    >
+                        {item.evidence}
+                    </Text>
+                    <Text
+                        style={styles.subtitle}
+                        numberOfLines={2}
+                    >
+                        {item.evidence}
+                    </Text>
+                    <Rating
+                        showRating
+                        onFinishRating={this._ratingCompleted.bind(this, item.behaviourImpact, item.key)}
+                        imageSize={20}
+                        startingValue={item.rating}
+                        style={{ paddingVertical: 50 }}
+                    />
+                </View>
+            </View>
+        );
+    }
+    render() {
+        if (this.state.questions)
+            return (<View>
+                <View style={{ height: 100 }} />
+                <Carousel
+                    ref={(c) => { this._carousel = c; }}
+                    data={this.state.questions}
+                    renderItem={this._renderItem}
+                    sliderWidth={sliderWidth}
+                    itemWidth={itemWidth}
+                />
+            </View>);
         else
-        return(null)
+            return (null)
     }
 }
+
