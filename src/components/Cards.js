@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Image, Text, View} from 'react-native';
+import {Image, Text, View, Alert,TouchableHighlight} from 'react-native';
 
 const ProgressBar = require("./ProgressBar");
 const styles = require('../styles/Style');
@@ -8,11 +8,17 @@ export default class Cards extends Component {
         super(props);
         this.state = {}
     }
+    _onCardClick=()=>{
+        console.log(this.props);
+        this.props.navigateToQuestion(this.props.employeeData);
+    }
 
     render() {
         const percentage = (40 / 100) * 100;
         return (
-            <View style={styles.container}>
+            <TouchableHighlight onPress={this._onCardClick}>
+            <View style={styles.container} > 
+            
                 <View style={styles.cardHeader}>
                     <Image style={styles.cardHeaderImage} source={{
                         uri: 'https://www.communitylandtrust.ca/wp-content/uploads/2015/10/placeholder.png'
@@ -31,7 +37,9 @@ export default class Cards extends Component {
                         </Text>
                     </View>
                 </View>
+                
             </View>
+            </TouchableHighlight>
         );
     }
 }
