@@ -90,7 +90,11 @@ module.exports = StyleSheet.create({
     },
     ratingText: {
         textAlign: 'right',
-        marginTop: -20,
-        marginRight: 50
+        marginLeft: 50,
+        marginTop: 10
+    },
+    ratingStars: {
+        alignItems: 'center',
+        justifyContent: 'center'
     }
 });
