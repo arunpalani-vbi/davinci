@@ -96,5 +96,24 @@ module.exports = StyleSheet.create({
     ratingStars: {
         alignItems: 'center',
         justifyContent: 'center'
+    },
+    ratingTextMenu: {
+        marginLeft: 240
+    },
+    btncontainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    btnbutton: {
+        backgroundColor: '#074b84',
+        width: '40%',
+        height: 40,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 2,
+    },
+    btncontent: {
+        color: '#ffffff'
     }
 });

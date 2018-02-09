@@ -184,7 +184,6 @@ export default class Questions extends React.Component {
                 <ScrollView>
                     <View style={styles.questionsMainContainer}>
                         {employeeCards}
-
                     </View>
 
                 </ScrollView>
