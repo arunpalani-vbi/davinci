@@ -118,5 +118,25 @@ module.exports = StyleSheet.create({
     },
     ratingTextBox: {
         paddingTop: 5
+    },
+    tabsContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    tabsTouchableContainer: {
+        height: 75
+    },
+    tabContext: {
+        width: 100,
+        height: 50,
+        paddingTop: 0,
+        paddingBottom: 0,
+        paddingLeft: 10,
+        paddingRight: 0,
+        textAlign: 'center',
+        lineHeight: 50,
+        color: '#a9a9a9',
+        flexWrap: "wrap"
     }
 });

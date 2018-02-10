@@ -1,6 +1,6 @@
 import React from 'react'
 import _ from 'lodash'
-import {ScrollView, Text, View} from 'react-native'
+import {ScrollView, Text, TouchableHighlight, View} from 'react-native'
 import {LinearGradient} from 'expo';
 import styles from '../styles/SliderEntry.style'
 import firebaseDb from '../services/firebase'
@@ -10,17 +10,35 @@ const stylesheet = require('../styles/Style');
 
 const TimePeriod = 'JAN2018';
 const BehaviourImpact = 'Deliverables';
+
+class Tab extends React.Component {
+    constructor(props) {
+        super(props);
+    }
+
+    render() {
+        console.log('tab');
+        return <TouchableHighlight
+            style={this.props.istabActive ? stylesheet.tabsTouchableContainer : stylesheet.tabsTouchableContainer}
+            onPress={this.props._setActiveTab}
+        >
+            <Text style={stylesheet.tabContext}>{this.props.content}</Text>
+        </TouchableHighlight>
+    }
+}
+
 export default class Questions extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             questions: [],
-            questionsSample: [{
-                id: 1,
-                ownerName: 'Harvey Spector',
-                question: 'Question Head',
-                desc: 'This is sample question content, Hi there how are you :->This is sample question content, Hi there how are you :->'
-            },
+            questionsSample: [
+                {
+                    id: 1,
+                    ownerName: 'Harvey Spector',
+                    question: 'Question Head',
+                    desc: 'This is sample question content, Hi there how are you :->This is sample question content, Hi there how are you :->'
+                },
                 {
                     id: 2,
                     ownerName: 'Harvey Spector',
@@ -98,8 +116,37 @@ export default class Questions extends React.Component {
                     ownerName: 'Harvey Spector',
                     question: 'Question Head',
                     desc: 'This is sample question content, Hi there how are you :->This is sample question content, Hi there how are you :->'
-                }]
-        }
+                }],
+            tabs: [
+                {
+                    id: 'tab1',
+                    name: 'Cat 1',
+                    group: 'GP1'
+                },
+                {
+                    id: 'tab2',
+                    name: 'Cat 2',
+                    group: 'GP2'
+                },
+                {
+                    id: 'tab3',
+                    name: 'Cat 3',
+                    group: 'GP3'
+                },
+                {
+                    id: 'tab4',
+                    name: 'Cat 4',
+                    group: 'GP4'
+                },
+                {
+                    id: 'tab5',
+                    name: 'Cat 5',
+                    group: 'GP5'
+                }
+            ],
+            activeTab: 'tab1'
+        };
+        this._tabSwitch = this._tabSwitch.bind(this);
     }
 
     componentWillUnmount() {
@@ -154,6 +201,18 @@ export default class Questions extends React.Component {
         filteredQuestionRef.on("value", processQuestionSnapshot);
     }
 
+    _tabSwitch() {
+
+    }
+
+    _istabActive(id) {
+        return this.state.activeTab === id;
+    }
+
+    _setActiveTab(id) {
+        console.log(id);
+        this.setState({activeTab: id})
+    }
     render() {
         if (this.state.questions) {
             const userName = 'Arunkumar Palaniappan';
@@ -166,6 +225,14 @@ export default class Questions extends React.Component {
             }
             const employeeCards = this.state.questionsSample.map(employee => (
                 <QuestionCards employeeData={employee} key={employee.id}/>
+            ));
+            const tabsMenu = this.state.tabs.map(tab => (
+                <Tab key={tab.id}
+                     style={stylesheet.tabsTouchableContainer}
+                     istabActive={this._istabActive(tab.id)}
+                     _setActiveTab={this._setActiveTab.bind(tab.id)}
+                     content={tab.id}>
+                </Tab>
             ));
             return (<View>
 
@@ -182,6 +249,10 @@ export default class Questions extends React.Component {
                     </LinearGradient>
                 </View>
                 <ScrollView>
+                    <ScrollView style={{flex: 1, flexDirection: 'row'}} directionalLockEnabled={false}
+                                horizontal={true}>
+                        {tabsMenu}
+                    </ScrollView>
                     <View style={styles.questionsMainContainer}>
                         {employeeCards}
                     </View>

@@ -39,10 +39,10 @@ export default class QuestionCards extends Component {
                                     <Stars
                                         isActive={true}
                                         rateMax={5}
-                                        isHalfStarEnabled={true}
+                                        isHalfStarEnabled={false}
                                         onStarPress={(rating) => this.setState({rating})}
                                         rate={0}
-                                        size={40}
+                                        size={50}
                                     />
                                     <Text style={styles.ratingText}>{this.state.rating} / 5</Text>
                                 </View>
