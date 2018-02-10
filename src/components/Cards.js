@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
-import {Image, Text, View, Alert,TouchableHighlight} from 'react-native';
+import {Text, TouchableHighlight, View} from 'react-native';
+import {LinearGradient} from 'expo';
 
 const ProgressBar = require("./ProgressBar");
 const styles = require('../styles/Style');
@@ -10,19 +11,32 @@ export default class Cards extends Component {
     }
     _onCardClick=()=>{
         this.props.navigateToQuestion(this.props.employeeData);
-    }
+    };
 
     render() {
         const percentage = (40 / 100) * 100;
+        const userName = this.props.employeeData.ownerName.split(' ');
+        let userInitials = '';
+        if (userName.length > 1) {
+            userInitials = userName[0][0].toUpperCase() + userName[1][0].toUpperCase();
+        } else {
+            userInitials = userName[0][0].toUpperCase();
+        }
         return (
             <TouchableHighlight onPress={this._onCardClick}>
-            <View style={styles.container} > 
-            
-                <View style={styles.cardHeader}>
-                    <Image style={styles.cardHeaderImage} source={{
-                        uri: 'https://www.communitylandtrust.ca/wp-content/uploads/2015/10/placeholder.png'
-                    }}/>
-                    <Text style={styles.cardHeaderFont}>{this.props.employeeData.ownerName}</Text>
+            <View style={styles.container} >
+
+                <View>
+                    <LinearGradient
+                        style={styles.cardHeader}
+                        colors={['#548ee8', '#133bd0']}>
+                        <View style={styles.cardHeaderImage}>
+                            <Text style={styles.imageContainer}>
+                                {userInitials}
+                            </Text>
+                        </View>
+                        <Text style={styles.cardHeaderFont}>{this.props.employeeData.ownerName}</Text>
+                    </LinearGradient>
                 </View>
                 <View style={styles.cardInfo}>
                     <View>
