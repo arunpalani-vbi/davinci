@@ -15,15 +15,13 @@ class Tab extends React.Component {
     constructor(props) {
         super(props);
     }
-
     render() {
-        console.log('tab');
         return <TouchableHighlight
-            style={this.props.istabActive ? stylesheet.tabsTouchableContainer : stylesheet.tabsTouchableContainer}
-            onPress={this.props._setActiveTab}
-        >
-            <Text style={stylesheet.tabContext}>{this.props.content}</Text>
-        </TouchableHighlight>
+                    style={stylesheet.tabsTouchableContainer}
+                    underlayColor={'transparent'}
+                    onPress={this.props.setActiveTab}>
+                    <Text style={this.props.istabActive ? stylesheet.tabActive : stylesheet.tabContext}>{this.props.content}</Text>
+                </TouchableHighlight>
     }
 }
 
@@ -146,7 +144,6 @@ export default class Questions extends React.Component {
             ],
             activeTab: 'tab1'
         };
-        this._tabSwitch = this._tabSwitch.bind(this);
     }
 
     componentWillUnmount() {
@@ -201,19 +198,15 @@ export default class Questions extends React.Component {
         filteredQuestionRef.on("value", processQuestionSnapshot);
     }
 
-    _tabSwitch() {
-
-    }
-
     _istabActive(id) {
         return this.state.activeTab === id;
     }
 
     _setActiveTab(id) {
-        console.log(id);
         this.setState({activeTab: id})
     }
     render() {
+        console.log('active : '+this.state.activeTab)
         if (this.state.questions) {
             const userName = 'Arunkumar Palaniappan';
             const fullName = userName.split(' ');
@@ -230,7 +223,7 @@ export default class Questions extends React.Component {
                 <Tab key={tab.id}
                      style={stylesheet.tabsTouchableContainer}
                      istabActive={this._istabActive(tab.id)}
-                     _setActiveTab={this._setActiveTab.bind(tab.id)}
+                     setActiveTab={this._setActiveTab.bind(this,tab.id)}
                      content={tab.id}>
                 </Tab>
             ));
