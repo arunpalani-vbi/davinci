@@ -100,12 +100,12 @@ module.exports = StyleSheet.create({
     ratingTextMenu: {
         marginLeft: 240
     },
-    btncontainer: {
+    reviewSubmitContainer: {
         flex: 1,
         flexDirection: 'row',
         justifyContent: 'space-between'
     },
-    btnbutton: {
+    reviewSubmitButton: {
         backgroundColor: '#074b84',
         width: '40%',
         height: 40,
@@ -113,7 +113,7 @@ module.exports = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 2,
     },
-    btncontent: {
+    reviewSubmitContent: {
         color: '#ffffff'
     },
     ratingTextBox: {

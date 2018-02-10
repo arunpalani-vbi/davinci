@@ -58,11 +58,12 @@ export default class QuestionCards extends Component {
                                     style={styles.ratingTextBox}
                                     onChangeText={(phone) => (console.log(phone))}
                                 />
-                                <View style={styles.btncontainer}>
-                                    <TouchableHighlight style={styles.btnbutton}><Text
-                                        style={styles.btncontent}>Submit</Text></TouchableHighlight>
-                                    <TouchableHighlight style={styles.btnbutton} onPress={this._swapVisibility}><Text
-                                        style={styles.btncontent}>Close</Text></TouchableHighlight>
+                                <View style={styles.reviewSubmitContainer}>
+                                    <TouchableHighlight style={styles.reviewSubmitButton}><Text
+                                        style={styles.reviewSubmitContent}>Submit</Text></TouchableHighlight>
+                                    <TouchableHighlight style={styles.reviewSubmitButton}
+                                                        onPress={this._swapVisibility}><Text
+                                        style={styles.reviewSubmitContent}>Close</Text></TouchableHighlight>
                                 </View>
                             </View>}
                         </View>
