@@ -115,5 +115,8 @@ module.exports = StyleSheet.create({
     },
     btncontent: {
         color: '#ffffff'
+    },
+    ratingTextBox: {
+        paddingTop: 5
     }
 });

@@ -13,11 +13,10 @@ export default class QuestionCards extends Component {
             showRating: true,
             showReview: false
         };
-        this._swapVisibility.bind(this);
+        this._swapVisibility = this._swapVisibility.bind(this);
     }
-
     _swapVisibility() {
-        this.setState({showRating: !this.state.showRating, showReview: this.state.showReview})
+        this.setState({showRating: !this.state.showRating, showReview: !this.state.showReview})
     }
     render() {
         return (
@@ -28,7 +27,8 @@ export default class QuestionCards extends Component {
                             <Text style={styles.questionCardsHeadFont}>
                                 {this.props.employeeData.question}
                             </Text>
-                            <TouchableHighlight style={styles.ratingTextMenu} onPress={this._swapVisibility}><Icon
+                            <TouchableHighlight style={styles.ratingTextMenu} underlayColor={'transparent'}
+                                                onPress={this._swapVisibility}><Icon
                                 name="menu" size={30} color="#074b84"/></TouchableHighlight>
                         </View>
                         <View>
@@ -53,12 +53,16 @@ export default class QuestionCards extends Component {
                                     label=''
                                     value={''}
                                     multiline={true}
+                                    labelHeight={0}
                                     characterRestriction={300}
+                                    style={styles.ratingTextBox}
                                     onChangeText={(phone) => (console.log(phone))}
                                 />
                                 <View style={styles.btncontainer}>
-                                    <View style={styles.btnbutton}><Text style={styles.btncontent}>Submit</Text></View>
-                                    <View style={styles.btnbutton}><Text style={styles.btncontent}>Close</Text></View>
+                                    <TouchableHighlight style={styles.btnbutton}><Text
+                                        style={styles.btncontent}>Submit</Text></TouchableHighlight>
+                                    <TouchableHighlight style={styles.btnbutton} onPress={this._swapVisibility}><Text
+                                        style={styles.btncontent}>Close</Text></TouchableHighlight>
                                 </View>
                             </View>}
                         </View>
