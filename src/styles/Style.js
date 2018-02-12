@@ -125,18 +125,25 @@ module.exports = StyleSheet.create({
         justifyContent: 'space-between'
     },
     tabsTouchableContainer: {
-        height: 75
+        height: 65
     },
     tabContext: {
         width: 100,
-        height: 50,
-        paddingTop: 0,
-        paddingBottom: 0,
-        paddingLeft: 10,
-        paddingRight: 0,
+        height: 40,
+        padding:0,
         textAlign: 'center',
-        lineHeight: 50,
+        lineHeight: 40,
         color: '#a9a9a9',
         flexWrap: "wrap"
+    },
+    tabActive: {
+        width: 100,
+        height: 65,
+        padding:0,
+        textAlign: 'center',
+        lineHeight: 40,
+        flexWrap: "wrap",
+        backgroundColor: '#ffffff',
+        color: '#333333'
     }
 });
